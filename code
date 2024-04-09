@@ -1,0 +1,29 @@
+def mod_exp(base, exponent, modulus):
+    result = 1
+    base = base % modulus
+    while exponent > 0:
+        if exponent % 2 == 1:
+            result = (result * base) % modulus
+        exponent = exponent // 2
+        base = (base * base) % modulus
+    return result
+
+def dh(p, g, a, b):
+    A = mod_exp(g, a, p)
+    B = mod_exp(g, b, p)
+    
+    shared_secret_A = mod_exp(B, a, p)
+    shared_secret_B = mod_exp(A, b, p)
+    
+    assert shared_secret_A == shared_secret_B
+    
+    return shared_secret_A
+
+
+p = 23  
+g = 5   
+a = 9821   
+b = 49  
+
+shared_secret = dh(p, g, a, b)
+print("Shared secret:", shared_secret)
